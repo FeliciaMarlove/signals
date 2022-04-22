@@ -8,6 +8,7 @@ import com.example.signals.repositories.SignalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +29,15 @@ public class SignalService {
 
     public SignalDto getSignal(String id) {
         Optional<Signal> optionalSignal = signalRepository.findById(id);
+        System.out.println(optionalSignal);
         return optionalSignal.map(this::transformToDto).orElse(null);
     }
 
     public List<String> getKeywordNamesForSignal(String signalId) {
         SignalDto signalDto = getSignal(signalId);
-        int[] keywordIds = signalDto.getKeywordsIds();
+        List<Integer> keywordIds = signalDto.getKeywordsIds();
         List<String> keywordsNames = new ArrayList<>();
-        for(int kwi: keywordIds) {
+        for(Integer kwi: keywordIds) {
             Optional<Keyword> optionalKeyword = keywordRepository.findById(kwi);
             Keyword keyword = optionalKeyword.orElseThrow(() -> new RuntimeException("No keyword found with id " + kwi));
             keywordsNames.add(keyword.getName());
@@ -62,18 +64,21 @@ public class SignalService {
         );
     }
 
-    private int[] getKeywordIds(String keywordIds) {
-        String[] ids = keywordIds.split(";");
-        int[] intIds = new int[ids.length];
-        for(int i = 0; i < ids.length; i++) {
-            String stringId = ids[i];
-            try {
-                int id = Integer.parseInt(stringId);
-                intIds[i] = id;
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Keyword ID " + stringId + " is not an integer");
+    private List<Integer> getKeywordIds(String keywordIds) {
+        List<Integer> keywordList = new ArrayList<>();
+        keywordIds = keywordIds.replace("[","").replace("]","").replace(" ","");
+        if (!keywordIds.isEmpty()) {
+            String[] ids = keywordIds.split(";");
+            for(int i = 0; i < ids.length; i++) {
+                String stringId = ids[i];
+                try {
+                    Integer id = Integer.valueOf(stringId);
+                    keywordList.add(id);
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Keyword ID " + stringId + " is not an integer");
+                }
             }
         }
-        return intIds;
+        return keywordList;
     }
 }
