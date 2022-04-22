@@ -27,6 +27,9 @@ public class Signal {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @OneToMany(mappedBy = "keyword", targetEntity = Keyword.class)
-    private List<Keyword> keywords;
+    /*
+    Should better be a List with a ManyToMany relation and a join table but to gain some time I used a dummy solution
+     */
+    @Column(name = "keywordIds")
+    private String keywordIds;
 }

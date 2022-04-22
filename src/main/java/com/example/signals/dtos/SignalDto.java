@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,5 +16,5 @@ public class SignalDto {
     private Integer deadbandValue;
     private DeadbandType deadbandType;
     private Boolean active;
-    private List<Integer> keywordsIds;
+    private int[] keywordsIds;
 }
