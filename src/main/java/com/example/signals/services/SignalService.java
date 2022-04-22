@@ -63,7 +63,7 @@ public class SignalService {
     }
 
     private int[] getKeywordIds(String keywordIds) {
-        String[] ids = keywordIds.split(",");
+        String[] ids = keywordIds.split(";");
         int[] intIds = new int[ids.length];
         for(int i = 0; i < ids.length; i++) {
             String stringId = ids[i];

@@ -1,18 +1,21 @@
 package com.example.signals.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "signals")
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Signal {
     @Id
-    @Column(name = "node_id", nullable = false)
+    @Column(name = "node_id")
     private String nodeId;
 
     @Column(name = "sampling_interval_ms", nullable = false)
